@@ -5,20 +5,21 @@ dotenv.config();
 const mongoose = require("mongoose");
 const app = express();
 const userRoutes = require('./routes/userRoutes');
+const restaurantRoutes = require('./routes/restaurantRoutes');
+const MenuItem = require("./models/MenuItem");
+const Restaurant = require("./models/Restaurant");
+const User = require("./models/User");
 
 app.use(bodyParser.json());
 
 
 app.use('/users',userRoutes);
+app.use('/restaurants', restaurantRoutes);
 
-///= Sarrvesh work
 
-///= Sarrvesh work
-
-//kunal 
 
 mongoose.connect(process.env.URL)
-.then(() => {
+.then(async () => {
     app.listen(3000, () => {
         console.log("Server is running on port 3000 + Connected to mongodDB");
     });
