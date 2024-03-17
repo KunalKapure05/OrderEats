@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { browseRestaurants} = require('../controllers/restaurantCont');
+const { browseRestaurants, searchRestaurant} = require('../controllers/restaurantCont');
 
 
 router.get('/', browseRestaurants);
-// router.get('/search', searchRestaurant);
+router.get('/search/:name', searchRestaurant);
 
 module.exports=router;

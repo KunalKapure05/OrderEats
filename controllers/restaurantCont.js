@@ -19,6 +19,22 @@ async function browseRestaurants(req, res){
 }
 
 
+
+async function searchRestaurant(req, res) {
+    const name = req.params.name;
+    try{
+        const restaurantToFind = await Restaurant.find({name:{$regex:name, $options: "i"}});
+        return res.status(200).json(restaurantToFind);
+    }
+    catch(error){
+        console.error(error);
+        return res.status(500).json({message:"Internal Server Error"});
+    }
+
+}
+
+
 module.exports = {
-    browseRestaurants
+    browseRestaurants,
+    searchRestaurant
 }
