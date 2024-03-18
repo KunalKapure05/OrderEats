@@ -44,7 +44,7 @@ async function MenuRes(req, res) {
         if (!restaurant) {
             return res.status(404).json({ message: "Restaurant not found" });
         }
-// i have to return the menuietms
+
         const menu = restaurant.menu
 
         return res.status(200).json({ restaurant: restaurant.name, menu });
