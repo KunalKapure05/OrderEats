@@ -84,13 +84,54 @@ async function login(req, res) {
 
 
 async function logout(req,res){
-    res.clearCookie("token");
-    return res.status(200).json({ message:"Logout Suucessfully" });
+   try {
+     res.clearCookie("token");
+     return res.status(200).json({ message:"Logout Suucessfully" });
+   } 
+   catch (error) {
+    console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+   }
 
 }
+
+
+
+async function update(req,res){
+    try {
+        const personId = req.params.id;
+        const updatedPersonData = req.body;
+
+        const response = await User.findByIdAndUpdate(personId,updatedPersonData,{
+            new:true,
+            runValidtors:true
+        });
+
+        if(!response){
+            return res.status(401).json({message:"Invalid"})
+        } 
+
+        console.log("User's Info Updated");
+        return res.status(201).json(response)
+       
+    } 
+
+
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+        
+    }
+
+}
+
+
+
+
 module.exports = {
     signup,
     login,
     AllUsers,
-    logout
+    logout,
+    update
 };
