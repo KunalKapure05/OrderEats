@@ -125,7 +125,40 @@ async function update(req,res){
 
 }
 
+async function resetPassword(req,res){
+    try {
 
+        const {email,newPassword} = req.body;
+        if(!email|!newPassword){
+            return res.status(500).send({
+                success: false,
+                message: "Please Provide All Fields",
+              });
+        }
+
+        const user = await User.findOne({email});
+        if (!user) {
+            return res.status(500).send({
+              success: false,
+              message: "User Not Found",
+            });
+          }
+
+          const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    user.password = hashedPassword;
+    await user.save();
+    res.status(200).send({
+      success: true,
+      message: "Password Reset Successfully",
+    });
+        
+        
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
 
 
 module.exports = {
@@ -133,5 +166,6 @@ module.exports = {
     login,
     AllUsers,
     logout,
-    update
+    update,
+    resetPassword
 };
