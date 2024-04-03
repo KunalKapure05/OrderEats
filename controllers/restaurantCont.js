@@ -23,7 +23,7 @@ async function browseRestaurants(req, res){
 async function searchRestaurant(req, res) {
     const name = req.params.name;
     try{
-        const restaurantToFind = await Restaurant.find({name:{$regex:name, $options: "i"}});
+        const restaurantToFind = await Restaurant.find({name:{$regex:name, $options: "i"}}).populate('menu');
         return res.status(200).json(restaurantToFind);
     }
     catch(error){
